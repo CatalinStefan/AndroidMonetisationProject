@@ -7,11 +7,20 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.devtides.androidmonetisationproject.R
 import com.devtides.androidmonetisationproject.model.Country
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.reward.RewardItem
+import com.google.android.gms.ads.reward.RewardedVideoAd
+import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
 
     lateinit var country: Country
+    private lateinit var mInterstitialAd: InterstitialAd
+    private lateinit var mRewardedVideoAd: RewardedVideoAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +32,82 @@ class DetailActivity : AppCompatActivity() {
             finish()
         }
 
+//        showInterstitialAd()
+        showRewardedAd()
+
         populate()
+    }
+
+    fun showInterstitialAd() {
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = "ca-app-pub-3940256099942544/1033173712"
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
+        mInterstitialAd.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                mInterstitialAd.show()
+            }
+
+            override fun onAdFailedToLoad(errorCode: Int) {
+                // Code to be executed when an ad request fails.
+            }
+
+            override fun onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            override fun onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            override fun onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            override fun onAdClosed() {
+                // Code to be executed when the interstitial ad is closed.
+            }
+        }
+    }
+
+    fun showRewardedAd() {
+        val listener = object: RewardedVideoAdListener {
+            override fun onRewardedVideoAdClosed() {
+                val i = 0
+            }
+
+            override fun onRewardedVideoAdLeftApplication() {
+                val i = 0
+            }
+
+            override fun onRewardedVideoAdLoaded() {
+                mRewardedVideoAd.show()
+            }
+
+            override fun onRewardedVideoAdOpened() {
+                val i = 0
+            }
+
+            override fun onRewardedVideoCompleted() {
+                val i = 0
+            }
+
+            override fun onRewarded(p0: RewardItem?) {
+                val i = 0
+            }
+
+            override fun onRewardedVideoStarted() {
+                val i = 0
+            }
+
+            override fun onRewardedVideoAdFailedToLoad(p0: Int) {
+                val i = 0
+            }
+        }
+
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
+        mRewardedVideoAd.rewardedVideoAdListener = listener
+        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+            AdRequest.Builder().build())
     }
 
     fun populate() {

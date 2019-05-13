@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        MobileAds.initialize(this, "YOUR_ADMOB_APP_ID")
+        MobileAds.initialize(this, "ca-app-pub-9057526686789846~8838914091")
 
         list.apply {
             layoutManager = LinearLayoutManager(context)
