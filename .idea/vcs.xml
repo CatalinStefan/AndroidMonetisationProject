@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/2048Clone" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/2048ClonePro" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AndroidArchitectures" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AndroidArchitecturesProject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Countries" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/CountriesProject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FirebaseUI-Android" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/FlappyBirdClone" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Swipecards" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/TinderClone" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/TinderCloneProject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/TwitterProject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WhatappClone" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/WhatsappCloneProject" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/android-mvvm-dagger-2-rxjava-example" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cake-android-client" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/projects/LearnErlang" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/projects/countries" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/projects/util/countries" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/restcountries" vcs="Git" />
+  </component>
+</project>
