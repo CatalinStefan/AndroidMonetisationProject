@@ -10,6 +10,8 @@ import com.devtides.androidmonetisationproject.model.Country
 import com.devtides.androidmonetisationproject.model.ListItem
 import com.devtides.androidmonetisationproject.model.TYPE_AD
 import com.devtides.androidmonetisationproject.model.TYPE_COUNTRY
+import com.devtides.androidmonetisationproject.util.getProgressDrawable
+import com.devtides.androidmonetisationproject.util.loadImage
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import kotlinx.android.synthetic.main.ad_row_layout.view.*
@@ -61,9 +63,7 @@ class CountryListAdapter(var countries: ArrayList<ListItem>, val clickListener: 
             val country = item as Country
             countryName?.text = country.countryName
             countryCapital?.text = country.capital
-            Glide.with(imageView.context)
-                .load(country.flag)
-                .into(imageView)
+            imageView.loadImage(country?.flag, getProgressDrawable(imageView.context))
             layout.setOnClickListener { clickListener.onCountryClick(country) }
         }
     }

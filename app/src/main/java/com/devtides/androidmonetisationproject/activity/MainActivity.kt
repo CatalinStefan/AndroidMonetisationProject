@@ -12,7 +12,11 @@ import com.devtides.androidmonetisationproject.model.BannerAd
 import com.devtides.androidmonetisationproject.model.Country
 import com.devtides.androidmonetisationproject.model.ListItem
 import com.devtides.androidmonetisationproject.presenter.CountriesPresenter
+import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.reward.RewardItem
+import com.google.android.gms.ads.reward.RewardedVideoAd
+import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickListener {
@@ -20,6 +24,8 @@ class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickL
     private var controller = CountriesPresenter(this)
     private val countriesList = ArrayList<ListItem>()
     private var countriesAdapter = CountryListAdapter(arrayListOf(), this)
+    private lateinit var mRewardedVideoAd: RewardedVideoAd
+    private var clickedCountry: Country? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +64,59 @@ class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickL
     }
 
     override fun onCountryClick(country: Country) {
-        startActivity(DetailActivity.getIntent(this, country))
+        clickedCountry = country
+        progress!!.visibility = View.VISIBLE
+        list!!.visibility = View.GONE
+        retryButton!!.visibility = View.GONE
+        showRewardedAd()
+    }
+
+    private fun showRewardedAd() {
+        val listener = object: RewardedVideoAdListener {
+            override fun onRewardedVideoAdClosed() {
+                showList()
+            }
+
+            override fun onRewardedVideoAdLeftApplication() {
+                showList()
+            }
+
+            override fun onRewardedVideoAdLoaded() {
+                mRewardedVideoAd.show()
+            }
+
+            override fun onRewardedVideoAdOpened() {
+            }
+
+            override fun onRewardedVideoCompleted() {
+                showList()
+            }
+
+            override fun onRewarded(p0: RewardItem?) {
+                mRewardedVideoAd.destroy(this@MainActivity)
+                startActivity(DetailActivity.getIntent(this@MainActivity, clickedCountry))
+            }
+
+            override fun onRewardedVideoStarted() {
+            }
+
+            override fun onRewardedVideoAdFailedToLoad(p0: Int) {
+                mRewardedVideoAd.destroy(this@MainActivity)
+                showList()
+                startActivity(DetailActivity.getIntent(this@MainActivity, clickedCountry))
+            }
+        }
+
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
+        mRewardedVideoAd.rewardedVideoAdListener = listener
+        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+            AdRequest.Builder().build())
+    }
+
+    private fun showList() {
+        progress!!.visibility = View.GONE
+        list!!.visibility = View.VISIBLE
+        retryButton!!.visibility = View.GONE
     }
 
     fun onRetry(v: View) {

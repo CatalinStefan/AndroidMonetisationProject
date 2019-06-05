@@ -20,7 +20,6 @@ class DetailActivity : AppCompatActivity() {
 
     lateinit var country: Country
     private lateinit var mInterstitialAd: InterstitialAd
-    private lateinit var mRewardedVideoAd: RewardedVideoAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +32,6 @@ class DetailActivity : AppCompatActivity() {
         }
 
 //        showInterstitialAd()
-        showRewardedAd()
 
         populate()
     }
@@ -69,47 +67,6 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    fun showRewardedAd() {
-        val listener = object: RewardedVideoAdListener {
-            override fun onRewardedVideoAdClosed() {
-                val i = 0
-            }
-
-            override fun onRewardedVideoAdLeftApplication() {
-                val i = 0
-            }
-
-            override fun onRewardedVideoAdLoaded() {
-                mRewardedVideoAd.show()
-            }
-
-            override fun onRewardedVideoAdOpened() {
-                val i = 0
-            }
-
-            override fun onRewardedVideoCompleted() {
-                val i = 0
-            }
-
-            override fun onRewarded(p0: RewardItem?) {
-                val i = 0
-            }
-
-            override fun onRewardedVideoStarted() {
-                val i = 0
-            }
-
-            override fun onRewardedVideoAdFailedToLoad(p0: Int) {
-                val i = 0
-            }
-        }
-
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this)
-        mRewardedVideoAd.rewardedVideoAdListener = listener
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
-            AdRequest.Builder().build())
-    }
-
     fun populate() {
         Glide.with(this)
             .load(country.flag)
@@ -123,7 +80,7 @@ class DetailActivity : AppCompatActivity() {
     companion object {
         val PARAM_COUNTRY = "country"
 
-        fun getIntent(context: Context, country: Country): Intent {
+        fun getIntent(context: Context, country: Country?): Intent {
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(PARAM_COUNTRY, country)
             return intent
