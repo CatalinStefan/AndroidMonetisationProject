@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.*
+import com.devtides.androidmonetisationproject.BuildConfig
 import com.devtides.androidmonetisationproject.R
 import com.devtides.androidmonetisationproject.adapter.CountryClickListener
 import com.devtides.androidmonetisationproject.adapter.CountryListAdapter
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        MobileAds.initialize(this, "ca-app-pub-9057526686789846~8838914091")
+        if(BuildConfig.FLAVOR == "free") {
+            MobileAds.initialize(this, "ca-app-pub-9057526686789846~8838914091")
+        }
 
         list.apply {
             layoutManager = LinearLayoutManager(context)
@@ -41,14 +44,18 @@ class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickL
 
     override fun setCountries(countries: List<Country>) {
         countriesList.clear()
-        var i = 0
-        for(country in countries) {
-            i++
-            if(i % 10 == 0) {
-                countriesList.add(BannerAd())
-            } else {
-                countriesList.add(country)
+        if(BuildConfig.FLAVOR == "free") {
+            var i = 0
+            for (country in countries) {
+                i++
+                if (i % 10 == 0) {
+                    countriesList.add(BannerAd())
+                } else {
+                    countriesList.add(country)
+                }
             }
+        } else {
+            countriesList.addAll(countries)
         }
         countriesAdapter.updateCountries(countriesList)
         retryButton.visibility = View.GONE
@@ -64,11 +71,15 @@ class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickL
     }
 
     override fun onCountryClick(country: Country) {
-        clickedCountry = country
-        progress!!.visibility = View.VISIBLE
-        list!!.visibility = View.GONE
-        retryButton!!.visibility = View.GONE
-        showRewardedAd()
+        if(BuildConfig.FLAVOR == "free") {
+            clickedCountry = country
+            progress!!.visibility = View.VISIBLE
+            list!!.visibility = View.GONE
+            retryButton!!.visibility = View.GONE
+            showRewardedAd()
+        } else {
+            startActivity(DetailActivity.getIntent(this@MainActivity, country))
+        }
     }
 
     private fun showRewardedAd() {
