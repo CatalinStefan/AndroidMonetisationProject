@@ -5,18 +5,28 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/devtides/AndroidStudioProjects/AndroidMonetisationProject/keystore')
+            storePassword '123456'
+            keyAlias = 'key0'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.devtides.androidmonetisationproject"
         minSdkVersion 15
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -59,6 +69,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:17.2.0'
 
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.android.billingclient:billing:2.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

@@ -23,6 +23,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/devtides/androidmonetisationproject/activity/BillingCallback.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/devtides/androidmonetisationproject/activity/DetailActivity.kt">
           <value>
             <set />
@@ -74,6 +79,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/devtides/androidmonetisationproject/presenter/CountriesPresenter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/devtides/androidmonetisationproject/util/BillingAgent.kt">
           <value>
             <set />
           </value>

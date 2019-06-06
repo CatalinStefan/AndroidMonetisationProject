@@ -13,6 +13,7 @@ import com.devtides.androidmonetisationproject.model.BannerAd
 import com.devtides.androidmonetisationproject.model.Country
 import com.devtides.androidmonetisationproject.model.ListItem
 import com.devtides.androidmonetisationproject.presenter.CountriesPresenter
+import com.devtides.androidmonetisationproject.util.BillingAgent
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.reward.RewardItem
@@ -20,13 +21,14 @@ import com.google.android.gms.ads.reward.RewardedVideoAd
 import com.google.android.gms.ads.reward.RewardedVideoAdListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickListener {
+class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickListener, BillingCallback {
 
     private var controller = CountriesPresenter(this)
     private val countriesList = ArrayList<ListItem>()
     private var countriesAdapter = CountryListAdapter(arrayListOf(), this)
     private lateinit var mRewardedVideoAd: RewardedVideoAd
     private var clickedCountry: Country? = null
+    private var billingAgent: BillingAgent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +42,14 @@ class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickL
             layoutManager = LinearLayoutManager(context)
             adapter = countriesAdapter
         }
+
+        billingAgent = BillingAgent(this, this)
+    }
+
+    override fun onDestroy() {
+        billingAgent?.onDestroy()
+        billingAgent = null
+        super.onDestroy()
     }
 
     override fun setCountries(countries: List<Country>) {
@@ -71,15 +81,23 @@ class MainActivity : AppCompatActivity(), CountriesPresenter.View, CountryClickL
     }
 
     override fun onCountryClick(country: Country) {
-        if(BuildConfig.FLAVOR == "free") {
-            clickedCountry = country
-            progress!!.visibility = View.VISIBLE
-            list!!.visibility = View.GONE
-            retryButton!!.visibility = View.GONE
-            showRewardedAd()
-        } else {
-            startActivity(DetailActivity.getIntent(this@MainActivity, country))
-        }
+//        if(BuildConfig.FLAVOR == "free") {
+//            clickedCountry = country
+//            progress!!.visibility = View.VISIBLE
+//            list!!.visibility = View.GONE
+//            retryButton!!.visibility = View.GONE
+//            showRewardedAd()
+//        } else {
+//            startActivity(DetailActivity.getIntent(this@MainActivity, country))
+//        }
+
+        clickedCountry = country
+//        billingAgent?.purchaseView()
+        billingAgent?.purchaseSubscription()
+    }
+
+    override fun onTokenConsumed() {
+        startActivity(DetailActivity.getIntent(this@MainActivity, clickedCountry))
     }
 
     private fun showRewardedAd() {
